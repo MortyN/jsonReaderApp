@@ -28,6 +28,7 @@ public class SocketHandler extends Service {
     boolean listIsSent = false;
 
     public String ipAddress;
+
     public void MyService() {
 
     }
@@ -50,7 +51,8 @@ public class SocketHandler extends Service {
             if (serverSocket != null) {
                 try {
                     serverSocket.close();
-                } catch (IOException ignored) {}
+                } catch (IOException ignored) {
+                }
             }
         }
         //configures behaviour if service is killed by system
@@ -70,7 +72,8 @@ public class SocketHandler extends Service {
     }
 
     class ServerThread implements Runnable {
-    int state = 1;
+        int state = 1;
+
         public void run() {
             try {
                 Socket s = new Socket(ipAddress, SERVERPORT);
@@ -79,16 +82,15 @@ public class SocketHandler extends Service {
                 DataOutputStream stateOutput = new DataOutputStream(stateStream);
                 stateOutput.writeInt(state);
 
-                switch(state){
+                switch (state) {
                     case 1:
-                        if(!listIsSent){
+                        if (!listIsSent) {
                             InputStream inputStream = s.getInputStream();
                             ObjectInputStream objIn = new ObjectInputStream(inputStream);
                             List<String> jsonSocketList = (List<String>) objIn.readObject();
                             jsonList.addAll(jsonSocketList);
                             listIsSent = true;
-                        }
-                        else{
+                        } else {
                             startIntent();
                         }
                         break;
