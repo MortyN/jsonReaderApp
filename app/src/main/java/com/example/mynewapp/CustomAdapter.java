@@ -11,9 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomAdapter extends ArrayAdapter {
-    private ArrayList dataSet;
+    public ArrayList dataSet;
     Context mContext;
     // View lookup cache
     private static class ViewHolder {
@@ -29,6 +30,13 @@ public class CustomAdapter extends ArrayAdapter {
     public int getCount() {
         return dataSet.size();
     }
+
+    public void updateList(ArrayList<DataModel> newlist){
+        this.dataSet.clear();
+        this.dataSet.addAll(newlist);
+        notifyDataSetChanged();
+    }
+
     @Override
     public DataModel getItem(int position) {
         return (DataModel) dataSet.get(position);

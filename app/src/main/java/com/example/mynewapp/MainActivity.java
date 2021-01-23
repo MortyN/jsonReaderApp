@@ -1,7 +1,6 @@
 package com.example.mynewapp;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,26 +8,20 @@ import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.*;
-import java.net.Socket;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String IPADDRESS_TEXT = "com.example.mytestapp.IPADDRESS_TEXT";
-
+    public static final String STATE = "com.example.mytestapp.STATE";
     public EditText serverIPInput;
-
     public String serverIP;
-
-
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler handler = new Handler(Looper.getMainLooper());
+    public String state = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
 
@@ -53,10 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //will start the server
                 Intent startServer = new Intent(this, SocketHandler.class);
                 startServer.putExtra(IPADDRESS_TEXT, serverIP);
+                startServer.putExtra(STATE, state);
                 startServer.setAction(SocketHandler.START_SERVER);
                 startService(startServer);
-
-
                 break;
         }
     }
